@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+seed.json
+.vercel/
+.taste-skill/
+supabase/.branches
+supabase/.temp
+.tanstack
+DECISIONS.md
+EXPLANATION.md
+PLAN.md
+.hallmark

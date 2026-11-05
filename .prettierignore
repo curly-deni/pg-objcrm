@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+src/routeTree.gen.ts
+.env*
+seed.json
+.idea/
+.taste-skill/
+supabase/.temp/
