@@ -1,0 +1,163 @@
+{
+  "brand": {
+    "name": "2B Studio",
+    "product": "Объекты и задачи"
+  },
+  "nav": {
+    "work": "Работа",
+    "objects": "Объекты",
+    "myTasks": "Мои задачи",
+    "manager": "Постановщик",
+    "executor": "Исполнитель",
+    "logout": "Выйти",
+    "logoutAccount": "Выйти из аккаунта",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "primary": "Основная навигация"
+  },
+  "breadcrumbs": {
+    "label": "Хлебные крошки",
+    "objects": "Объекты",
+    "allObjects": "Все объекты",
+    "myTasks": "Мои задачи"
+  },
+  "objects": {
+    "title": "Объекты",
+    "summary": "Адреса и ход работ по задачам.",
+    "new": "Новый объект",
+    "create": "Создать объект",
+    "emptyTitle": "Объектов пока нет",
+    "emptyManager": "Создайте первый объект, чтобы добавлять задачи.",
+    "emptyExecutor": "Вам пока не назначили задачи по объектам.",
+    "unavailable": "Объект недоступен",
+    "unavailableDescription": "Он удалён, скрыт или у вас нет доступа к нему.",
+    "count_one": "{{count}} объект",
+    "count_few": "{{count}} объекта",
+    "count_many": "{{count}} объектов",
+    "count_other": "{{count}} объекта",
+    "taskCount_one": "{{count}} задача",
+    "taskCount_few": "{{count}} задачи",
+    "taskCount_many": "{{count}} задач",
+    "taskCount_other": "{{count}} задачи"
+  },
+  "tasks": {
+    "title": "Задачи",
+    "myTitle": "Мои задачи",
+    "mySummary": "Назначенные работы и их текущий статус.",
+    "objectSummary": "Назначенные работы по объекту.",
+    "new": "Новая задача",
+    "emptyTitle": "Задач пока нет",
+    "emptyDescription": "Когда задача появится, она будет отображаться здесь.",
+    "emptyManager": "Создайте задачу и назначьте исполнителя.",
+    "emptyExecutor": "Вам пока не назначили задачи по этому объекту.",
+    "unavailable": "Задача недоступна",
+    "unavailableDescription": "Она удалена, скрыта или у вас нет доступа к ней.",
+    "archived": "В архиве",
+    "description": "Описание",
+    "assignee": "Исполнитель",
+    "created": "Создана {{date}}",
+    "status": "Статус",
+    "history": "История изменений",
+    "historySummary": "Все переходы статуса и комментарии.",
+    "historyEmpty": "История изменений пока пуста.",
+    "executorName": "Исполнитель: {{name}}",
+    "statusUpdated": "Статус задачи обновлён",
+    "take": "Взять в работу",
+    "sendForReview": "Отправить на проверку",
+    "accept": "Принять задачу",
+    "returnForRework": "Вернуть на доработку",
+    "reworkTitle": "Вернуть задачу",
+    "reworkPrompt": "Что нужно доработать?",
+    "reworkSubmitting": "Отправляем…",
+    "reworkRequired": "Напишите, что нужно доработать.",
+    "reworkLimit": "Не более 2000 символов.",
+    "createdBy": "Постановщик"
+  },
+  "status": {
+    "new": "Новая",
+    "in_progress": "В работе",
+    "in_review": "На проверке",
+    "accepted": "Принята",
+    "rework": "На доработке"
+  },
+  "table": {
+    "task": "Задача",
+    "object": "Объект",
+    "assignee": "Исполнитель",
+    "status": "Статус"
+  },
+  "objectForm": {
+    "create": "Новый объект",
+    "edit": "Изменить объект",
+    "saved": "Объект сохранён",
+    "created": "Объект создан",
+    "name": "Название",
+    "address": "Адрес"
+  },
+  "taskForm": {
+    "create": "Новая задача",
+    "edit": "Изменить задачу",
+    "saved": "Задача сохранена",
+    "created": "Задача создана",
+    "title": "Название",
+    "description": "Описание",
+    "assignee": "Исполнитель",
+    "loadingAssignees": "Загружаем список…",
+    "selectAssignee": "Выберите исполнителя",
+    "assigneeLocked": "Переназначение доступно в статусе «Новая» или «На доработке».",
+    "saving": "Сохраняем…",
+    "save": "Сохранить"
+  },
+  "archive": {
+    "button": "В архив",
+    "confirmTitle": "Переместить в архив?",
+    "objectSuccess": "Объект перемещён в архив",
+    "taskSuccess": "Задача перемещена в архив",
+    "objectDescription": "У объекта не должно быть активных задач.",
+    "taskDescription": "Задача скроется из активных списков, история останется.",
+    "pending": "Перемещаем…"
+  },
+  "login": {
+    "title": "Вход в систему",
+    "summary": "Используйте выданные рабочие данные.",
+    "email": "Email",
+    "password": "Пароль",
+    "submit": "Войти",
+    "submitting": "Входим…",
+    "loadingProfile": "Загружаем профиль…",
+    "invalidEmail": "Введите рабочий email",
+    "requiredPassword": "Введите пароль"
+  },
+  "auth": {
+    "checking": "Проверяем вход…",
+    "profileMissing": "Профиль не настроен",
+    "profileMissingDescription": "Обратитесь к постановщику, чтобы администратор создал профиль и назначил роль.",
+    "sessionError": "Не удалось проверить сессию",
+    "connectionError": "Проверьте подключение к интернету.",
+    "retry": "Повторить"
+  },
+  "common": {
+    "cancel": "Отмена",
+    "loading": "Загружаем…",
+    "loadingObjects": "Загружаем объекты…",
+    "loadingObject": "Загружаем объект…",
+    "loadingTask": "Загружаем задачу…",
+    "loadingMyTasks": "Загружаем ваши задачи…",
+    "loadingProfile": "Загружаем профиль…",
+    "retry": "Повторить",
+    "actionFailed": "Не удалось выполнить действие. Попробуйте ещё раз.",
+    "loadFailed": "Не удалось загрузить данные.",
+    "notFound": "Страница не найдена",
+    "notFoundDescription": "Проверьте адрес или вернитесь к объектам.",
+    "backToObjects": "К списку объектов"
+  },
+  "validation": {
+    "requiredName": "Введите название",
+    "nameLimit160": "Не более 160 символов",
+    "requiredAddress": "Введите адрес",
+    "addressLimit300": "Не более 300 символов",
+    "titleLimit200": "Не более 200 символов",
+    "descriptionLimit5000": "Не более 5000 символов",
+    "selectAssignee": "Выберите исполнителя"
+  }
+}
