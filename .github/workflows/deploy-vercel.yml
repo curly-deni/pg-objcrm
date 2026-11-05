@@ -1,0 +1,126 @@
+name: Deploy Vercel production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_project_id:
+        description: Type the production Vercel project ID to confirm the target
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-production-deployment
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Recheck before frontend deployment
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting, types, tests, and build
+        run: |
+          npm run format:check
+          npm run typecheck
+          npm run test:coverage
+
+      - name: Start local Supabase
+        run: |
+          if ! npm run supabase:start > "$RUNNER_TEMP/supabase-start.log" 2>&1; then
+            echo "::error::Supabase failed to start. Startup output is stored in the runner temp directory."
+            exit 1
+          fi
+
+      - name: Reset the local database and seed test users
+        run: npm run local:reset
+
+      - name: Test database permissions through user sessions
+        run: npm run test:api
+
+      - name: Build for production
+        run: npm run build
+
+      - name: Stop local Supabase
+        if: always()
+        run: npm run supabase:stop > /dev/null 2>&1 || true
+
+  deploy:
+    name: Build and publish Vercel production
+    needs: verify
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: vercel-production
+    env:
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Confirm the production project
+        env:
+          CONFIRM_PROJECT_ID: ${{ inputs.confirm_project_id }}
+        run: |
+          test -n "$VERCEL_ORG_ID" || { echo "::error::Set the VERCEL_ORG_ID repository variable."; exit 1; }
+          test -n "$VERCEL_PROJECT_ID" || { echo "::error::Set the VERCEL_PROJECT_ID repository variable."; exit 1; }
+          test "$CONFIRM_PROJECT_ID" = "$VERCEL_PROJECT_ID" || {
+            echo "::error::The confirmation does not match the configured Vercel project."
+            exit 1
+          }
+
+      - name: Install pinned Vercel CLI
+        run: npm install --global vercel@65.11.0
+
+      - name: Link and inspect the Vercel project
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel link --yes --project "$VERCEL_PROJECT_ID" --scope "$VERCEL_ORG_ID"
+          vercel project inspect --non-interactive
+
+      - name: Pull production environment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production
+
+      - name: Build production output
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod
+
+      - name: Deploy production output
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt --prod --yes

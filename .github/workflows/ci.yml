@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify app and database
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and component tests with coverage
+        run: npm run test:coverage
+
+      - name: Start local Supabase
+        run: |
+          if ! npm run supabase:start > "$RUNNER_TEMP/supabase-start.log" 2>&1; then
+            echo "::error::Supabase failed to start. Startup output is stored in the runner temp directory."
+            exit 1
+          fi
+
+      - name: Reset the local database and seed test users
+        run: npm run local:reset
+
+      - name: Test database permissions through user sessions
+        run: npm run test:api
+
+      - name: Build for production
+        run: npm run build
+
+      - name: Stop local Supabase
+        if: always()
+        run: npm run supabase:stop > /dev/null 2>&1 || true
