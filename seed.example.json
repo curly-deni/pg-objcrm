@@ -1,0 +1,88 @@
+{
+  "users": [
+    {
+      "key": "manager",
+      "email": "manager@objcrm.demo",
+      "password": "replace-with-a-private-manager-password",
+      "name": "Анна Петрова",
+      "role": "manager"
+    },
+    {
+      "key": "executor-a",
+      "email": "executor-a@objcrm.demo",
+      "password": "replace-with-a-private-executor-password",
+      "name": "Максим Орлов",
+      "role": "executor"
+    },
+    {
+      "key": "executor-b",
+      "email": "executor-b@objcrm.demo",
+      "password": "replace-with-a-private-executor-password",
+      "name": "Елена Волкова",
+      "role": "executor"
+    }
+  ],
+  "objects": [
+    {
+      "key": "klenovaya-apartments",
+      "name": "Апартаменты на Кленовой",
+      "address": "Москва, Кленовая улица, 14"
+    },
+    {
+      "key": "lesnaya-office",
+      "name": "Офис на Лесной",
+      "address": "Москва, Лесная улица, 8"
+    },
+    {
+      "key": "park-house",
+      "name": "Дом у парка",
+      "address": "Москва, Парковая улица, 21"
+    }
+  ],
+  "tasks": [
+    {
+      "key": "check-electricity",
+      "object": "klenovaya-apartments",
+      "title": "Проверить электрику",
+      "description": "Осмотреть щит и розетки во всех комнатах.",
+      "assignee": "executor-a",
+      "transitions": []
+    },
+    {
+      "key": "update-floor-plan",
+      "object": "lesnaya-office",
+      "title": "Обновить план помещений",
+      "description": "Сверить план с фактической планировкой.",
+      "assignee": "executor-a",
+      "transitions": [
+        { "actor": "executor-a", "status": "in_progress" },
+        { "actor": "executor-a", "status": "in_review" },
+        {
+          "actor": "manager",
+          "status": "rework",
+          "comment": "Нужно приложить актуальную схему этажей."
+        }
+      ]
+    },
+    {
+      "key": "replace-faucet",
+      "object": "park-house",
+      "title": "Заменить смеситель",
+      "description": "Установить комплектный смеситель на кухне.",
+      "assignee": "executor-b",
+      "transitions": [
+        { "actor": "executor-b", "status": "in_progress" },
+        { "actor": "executor-b", "status": "in_review" },
+        { "actor": "manager", "status": "accepted" }
+      ]
+    },
+    {
+      "key": "inspect-windows",
+      "object": "klenovaya-apartments",
+      "title": "Осмотреть окна",
+      "description": null,
+      "assignee": "executor-b",
+      "transitions": [{ "actor": "executor-b", "status": "in_progress" }]
+    }
+  ]
+}
